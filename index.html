@@ -178,18 +178,38 @@
 
     const noBtn = document.getElementById('noBtn');
 
-    // Function to move "No" button to a random position when clicked
-    noBtn.addEventListener('click', function() {
+    // Function to move "No" button to a random position when hovered over
+    noBtn.addEventListener('mouseenter', function() {
       const randomX = Math.random() * 80 + "vw";
       const randomY = Math.random() * 80 + "vh";
       noBtn.style.left = randomX;
       noBtn.style.top = randomY;
-
-      // Show "Please" slide after clicking "No"
-      setTimeout(function() {
-        showPleaseSlide();
-      }, 500);
     });
+
+    const yesBtn = document.getElementById('yesBtn');
+
+    yesBtn.addEventListener('click', function() {
+      showMessage();
+    });
+
+    function showMessage() {
+      const messageBox = document.getElementById('messageBox');
+      messageBox.style.display = 'block';
+    }
+
+    function goBack() {
+      const pleaseSlide = document.getElementById('pleaseSlide');
+      const slide2 = document.getElementById('slide2');
+      pleaseSlide.classList.remove('active');
+      slide2.classList.add('active');
+    }
+
+    function goToSlide2() {
+      const slide1 = document.getElementById('slide1');
+      const slide2 = document.getElementById('slide2');
+      slide1.classList.remove('active');
+      slide2.classList.add('active');
+    }
 
     function showPleaseSlide() {
       const pleaseSlide = document.getElementById('pleaseSlide');
@@ -209,7 +229,7 @@
   <div class="slide" id="slide2">
     <h1>Please forgive me 💖</h1>
     <div class="button-container">
-      <button id="yesBtn" onclick="showMessage()">Yes</button>
+      <button id="yesBtn">Yes</button>
       <button id="noBtn">No</button>
     </div>
     <div class="message" id="messageBox" style="display:none;">
@@ -225,28 +245,6 @@
       <button id="noBtn" onclick="goBack()">No</button>
     </div>
   </div>
-
-  <script>
-    const messageBox = document.getElementById('messageBox');
-
-    function goToSlide2() {
-      const slide1 = document.getElementById('slide1');
-      const slide2 = document.getElementById('slide2');
-      slide1.classList.remove('active');
-      slide2.classList.add('active');
-    }
-
-    function showMessage() {
-      messageBox.style.display = 'block';
-    }
-
-    function goBack() {
-      const pleaseSlide = document.getElementById('pleaseSlide');
-      const slide2 = document.getElementById('slide2');
-      pleaseSlide.classList.remove('active');
-      slide2.classList.add('active');
-    }
-  </script>
 
 </body>
 </html>
