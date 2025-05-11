@@ -42,20 +42,12 @@
     }
 
     @keyframes float {
-      0% {
-        transform: translateY(100vh) rotate(45deg);
-        opacity: 0;
-      }
-      50% {
-        opacity: 0.6;
-      }
-      100% {
-        transform: translateY(-10vh) rotate(45deg);
-        opacity: 0;
-      }
+      0% { transform: translateY(100vh) rotate(45deg); opacity: 0; }
+      50% { opacity: 0.6; }
+      100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
     }
 
-    .slide {
+    .slide, .please-slide {
       display: none;
       flex-direction: column;
       align-items: center;
@@ -66,7 +58,7 @@
       animation: fadeIn 1s ease-in;
     }
 
-    .slide.active {
+    .active {
       display: flex;
     }
 
@@ -77,7 +69,7 @@
       text-shadow: 1px 1px 3px #ffb6c1;
     }
 
-    .next-btn, #yesBtn, #noBtn {
+    .next-btn, .yes-btn, .no-btn {
       padding: 15px 30px;
       font-size: 18px;
       border: none;
@@ -99,17 +91,17 @@
       transform: scale(1.05);
     }
 
-    #yesBtn {
+    .yes-btn {
       background-color: #ff69b4;
       color: white;
     }
 
-    #yesBtn:hover {
+    .yes-btn:hover {
       background-color: #ff1493;
       transform: scale(1.1);
     }
 
-    #noBtn {
+    .no-btn {
       background-color: #ff4d4d;
       color: white;
       position: absolute;
@@ -139,11 +131,16 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    .please-slide h1 {
+      font-size: 4em;
+      color: #ff1493;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Floating hearts -->
+  <!-- Floating Hearts -->
   <script>
     for (let i = 0; i < 30; i++) {
       const heart = document.createElement("div");
@@ -154,16 +151,6 @@
       heart.style.opacity = Math.random();
       document.body.appendChild(heart);
     }
-
-    const noBtn = document.getElementById('noBtn');
-
-    // Function to move "No" button to a random position when clicked
-    noBtn.addEventListener('click', function() {
-      const randomX = Math.random() * 80 + "vw";
-      const randomY = Math.random() * 80 + "vh";
-      noBtn.style.left = randomX;
-      noBtn.style.top = randomY;
-    });
   </script>
 
   <!-- Slide 1 -->
@@ -176,32 +163,69 @@
   <div class="slide" id="slide2">
     <h1>Please forgive me 💖</h1>
     <div class="button-container">
-      <button id="yesBtn" onclick="showMessage()">Yes</button>
-      <button id="noBtn">No</button>
+      <button id="yesBtn1" class="yes-btn">Yes</button>
+      <button id="noBtn1" class="no-btn">No</button>
     </div>
-    <div class="message" id="messageBox" style="display:none;">
+    <div class="message" id="messageBox1" style="display:none;">
+      I love you 😘
+    </div>
+  </div>
+
+  <!-- Please Slide -->
+  <div class="please-slide" id="pleaseSlide">
+    <h1>Please 🙏</h1>
+    <div class="button-container">
+      <button id="yesBtn2" class="yes-btn">Yes</button>
+      <button id="noBtn2" class="no-btn">No</button>
+    </div>
+    <div class="message" id="messageBox2" style="display:none;">
       I love you 😘
     </div>
   </div>
 
   <script>
-    const slide1 = document.getElementById('slide1');
-    const slide2 = document.getElementById('slide2');
-    const messageBox = document.getElementById('messageBox');
-
     function goToSlide2() {
-      slide1.classList.remove('active');
-      slide2.classList.add('active');
+      document.getElementById("slide1").classList.remove("active");
+      document.getElementById("slide2").classList.add("active");
     }
 
-    function goToSlide1() {
-      slide2.classList.remove('active');
-      slide1.classList.add('active');
+    function showPleaseSlide() {
+      document.getElementById("slide2").classList.remove("active");
+      document.getElementById("pleaseSlide").classList.add("active");
     }
 
-    function showMessage() {
-      messageBox.style.display = 'block';
+    function goBack() {
+      document.getElementById("pleaseSlide").classList.remove("active");
+      document.getElementById("slide2").classList.add("active");
     }
+
+    function showLoveMessage1() {
+      document.getElementById("messageBox1").style.display = "block";
+    }
+
+    function showLoveMessage2() {
+      document.getElementById("messageBox2").style.display = "block";
+    }
+
+    // Move No Button on Hover (Both No buttons)
+    function attachNoButtonMove(id) {
+      const btn = document.getElementById(id);
+      btn.addEventListener('mouseenter', () => {
+        btn.style.left = Math.random() * 80 + "vw";
+        btn.style.top = Math.random() * 80 + "vh";
+      });
+    }
+
+    attachNoButtonMove("noBtn1");
+    attachNoButtonMove("noBtn2");
+
+    // Yes Button Events
+    document.getElementById("yesBtn1").addEventListener("click", showLoveMessage1);
+    document.getElementById("yesBtn2").addEventListener("click", showLoveMessage2);
+
+    // No Button Clicks
+    document.getElementById("noBtn1").addEventListener("click", showPleaseSlide);
+    document.getElementById("noBtn2").addEventListener("click", goBack);
   </script>
 
 </body>
