@@ -14,8 +14,8 @@
 
     .heart {
       position: absolute;
-      width: 20px;
-      height: 20px;
+      width: 40px;
+      height: 40px;
       background-color: pink;
       transform: rotate(45deg);
       animation: float 10s infinite;
@@ -25,19 +25,19 @@
     .heart::before, .heart::after {
       content: '';
       position: absolute;
-      width: 20px;
-      height: 20px;
+      width: 40px;
+      height: 40px;
       background-color: pink;
       border-radius: 50%;
     }
 
     .heart::before {
-      top: -10px;
+      top: -20px;
       left: 0;
     }
 
     .heart::after {
-      left: -10px;
+      left: -20px;
       top: 0;
     }
 
@@ -113,6 +113,7 @@
       background-color: #ff4d4d;
       color: white;
       position: absolute;
+      transition: transform 0.5s ease;
     }
 
     .button-container {
@@ -144,7 +145,7 @@
 
   <!-- Floating hearts -->
   <script>
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 30; i++) {
       const heart = document.createElement("div");
       heart.className = "heart";
       heart.style.left = Math.random() * 100 + "vw";
@@ -153,6 +154,16 @@
       heart.style.opacity = Math.random();
       document.body.appendChild(heart);
     }
+
+    const noBtn = document.getElementById('noBtn');
+
+    // Function to move "No" button to a random position when clicked
+    noBtn.addEventListener('click', function() {
+      const randomX = Math.random() * 80 + "vw";
+      const randomY = Math.random() * 80 + "vh";
+      noBtn.style.left = randomX;
+      noBtn.style.top = randomY;
+    });
   </script>
 
   <!-- Slide 1 -->
@@ -166,7 +177,7 @@
     <h1>Please forgive me 💖</h1>
     <div class="button-container">
       <button id="yesBtn" onclick="showMessage()">Yes</button>
-      <button id="noBtn" onclick="goToSlide1()">No</button>
+      <button id="noBtn">No</button>
     </div>
     <div class="message" id="messageBox" style="display:none;">
       I love you 😘
@@ -174,7 +185,6 @@
   </div>
 
   <script>
-    const noBtn = document.getElementById('noBtn');
     const slide1 = document.getElementById('slide1');
     const slide2 = document.getElementById('slide2');
     const messageBox = document.getElementById('messageBox');
