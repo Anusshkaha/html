@@ -139,6 +139,27 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
+    /* Styling for the new "Please" slide */
+    .please-slide {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .please-slide.active {
+      display: flex;
+    }
+
+    .please-slide h1 {
+      font-size: 4em;
+      color: #ff1493;
+    }
+
   </style>
 </head>
 <body>
@@ -163,7 +184,19 @@
       const randomY = Math.random() * 80 + "vh";
       noBtn.style.left = randomX;
       noBtn.style.top = randomY;
+
+      // Show "Please" slide after clicking "No"
+      setTimeout(function() {
+        showPleaseSlide();
+      }, 500);
     });
+
+    function showPleaseSlide() {
+      const pleaseSlide = document.getElementById('pleaseSlide');
+      const slide2 = document.getElementById('slide2');
+      slide2.classList.remove('active');
+      pleaseSlide.classList.add('active');
+    }
   </script>
 
   <!-- Slide 1 -->
@@ -184,23 +217,34 @@
     </div>
   </div>
 
+  <!-- Please Slide (new page after clicking No) -->
+  <div class="please-slide" id="pleaseSlide">
+    <h1>Please 🙏</h1>
+    <div class="button-container">
+      <button id="yesBtn" onclick="showMessage()">Yes</button>
+      <button id="noBtn" onclick="goBack()">No</button>
+    </div>
+  </div>
+
   <script>
-    const slide1 = document.getElementById('slide1');
-    const slide2 = document.getElementById('slide2');
     const messageBox = document.getElementById('messageBox');
 
     function goToSlide2() {
+      const slide1 = document.getElementById('slide1');
+      const slide2 = document.getElementById('slide2');
       slide1.classList.remove('active');
       slide2.classList.add('active');
     }
 
-    function goToSlide1() {
-      slide2.classList.remove('active');
-      slide1.classList.add('active');
-    }
-
     function showMessage() {
       messageBox.style.display = 'block';
+    }
+
+    function goBack() {
+      const pleaseSlide = document.getElementById('pleaseSlide');
+      const slide2 = document.getElementById('slide2');
+      pleaseSlide.classList.remove('active');
+      slide2.classList.add('active');
     }
   </script>
 
