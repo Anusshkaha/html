@@ -1,0 +1,222 @@
+import zipfile
+import os
+
+# Create the folder structure and files for the "forgive_me.html" example
+folder_name = "/mnt/data/forgive_me"
+os.makedirs(folder_name, exist_ok=True)
+
+# HTML content of the 'forgive_me.html' file
+html_content = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forgive Me</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(135deg, #ffe6f0, #ffcce0);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      transform: rotate(45deg);
+      animation: float 10s infinite;
+      opacity: 0.6;
+    }
+
+    .heart::before, .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(45deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    .slide {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      padding: 30px;
+      animation: fadeIn 1s ease-in;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    h1 {
+      color: #e91e63;
+      font-size: 3em;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 3px #ffb6c1;
+    }
+
+    .next-btn, #yesBtn, #noBtn {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin: 10px;
+      font-weight: bold;
+      box-shadow: 2px 4px 10px rgba(0,0,0,0.2);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .next-btn {
+      background-color: #ff85c1;
+      color: white;
+    }
+
+    .next-btn:hover {
+      background-color: #ff5ea6;
+      transform: scale(1.05);
+    }
+
+    #yesBtn {
+      background-color: #ff69b4;
+      color: white;
+    }
+
+    #yesBtn:hover {
+      background-color: #ff1493;
+      transform: scale(1.1);
+    }
+
+    #noBtn {
+      background-color: #ff4d4d;
+      color: white;
+      position: absolute;
+    }
+
+    .button-container {
+      position: relative;
+      width: 100%;
+      max-width: 300px;
+      height: 100px;
+      margin-top: 20px;
+    }
+
+    .message {
+      color: #d63384;
+      font-size: 1.8em;
+      margin-top: 30px;
+      background-color: #fff0f5;
+      padding: 20px;
+      border-radius: 12px;
+      border: 2px solid #ffc0cb;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating hearts -->
+  <script>
+    for (let i = 0; i < 20; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.top = Math.random() * 100 + "vh";
+      heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+      heart.style.opacity = Math.random();
+      document.body.appendChild(heart);
+    }
+  </script>
+
+  <!-- Slide 1 -->
+  <div class="slide active" id="slide1">
+    <h1>I am really sorry 🥺</h1>
+    <button class="next-btn" onclick="goToSlide2()">Next</button>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide" id="slide2">
+    <h1>Please forgive me 💖</h1>
+    <div class="button-container">
+      <button id="yesBtn" onclick="showMessage()">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
+    <div class="message" id="messageBox" style="display:none;">
+      I love you 😘
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const slide1 = document.getElementById('slide1');
+    const slide2 = document.getElementById('slide2');
+    const messageBox = document.getElementById('messageBox');
+
+    function goToSlide2() {
+      slide1.classList.remove('active');
+      slide2.classList.add('active');
+    }
+
+    noBtn.addEventListener('mouseover', () => {
+      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+    });
+
+    function showMessage() {
+      messageBox.style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
+"""
+
+# Create the HTML file in the folder
+html_file_path = os.path.join(folder_name, "forgive_me.html")
+with open(html_file_path, "w") as html_file:
+    html_file.write(html_content)
+
+# Create the zip file
+zip_file_path = "/mnt/data/forgive_me.zip"
+with zipfile.ZipFile(zip_file_path, "w") as zip_file:
+    zip_file.write(html_file_path, "forgive_me.html")
+
+zip_file_path
